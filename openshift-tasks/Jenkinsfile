@@ -22,6 +22,7 @@ podTemplate(
     def prodTag = ""
     def version = ""
     def devProject = "c4b1-tasks-dev" 
+    def prodProject = "c4b1-tasks-prod" 
 
     // Checkout Source Code.
     stage('Checkout Source') {
@@ -126,6 +127,8 @@ podTemplate(
         echo "Copy image to Nexus container registry"
 
         // TBD: Copy image to Nexus container registry
+ sh "skopeo copy --src-tls-verify=false --dest-tls-verify=false --src-creds openshift:\$(oc whoami -t) --dest-creds admin:admin123 docker://docker-registry.default.svc.cluster.local:5000/${devProject}/tasks:${devTag} http://nexus3.gpte-hw-cicd.svc.cluster.local:8081/repository/releases"
+        // TBD: Tag the built image with the production tag.
 
         // TBD: Tag the built image with the production tag
         sh "oc tag ${devProject}/tasks:${devTag} ${devProject}/tasks:${prodTag}"
