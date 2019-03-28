@@ -108,10 +108,10 @@ podTemplate(
 			  def dc_version = dc.status.latestVersion
 			  def rc = openshift.selector("rc", "tasks-${dc_version}").object()
                     echo "Waiting for ReplicationController tasks-${dc_version} to be ready"
-                   // while (rc.spec.replicas != rc.status.readyReplicas) {
-		//	  	sleep 10
-		//		rc = openshift.selector("rc", "tasks-${dc_version}").object()
-		//	  }
+                    while (rc.spec.replicas != rc.status.readyReplicas) {
+			  	sleep 10
+				rc = openshift.selector("rc", "tasks-${dc_version}").object()
+			  }
 
 
         // TBD: Deploy to development Project
