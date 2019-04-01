@@ -6,7 +6,7 @@
    containers: [ 
      containerTemplate( 
        name: "jnlp", 
-       image: "docker-registry.default.svc:5000/${GUID}-jenkins/jenkins-agent-appdev", 
+       image: "docker-registry.default.svc:5000/c4b1-jenkins/jenkins-agent-appdev", 
        resourceRequestMemory: "1Gi", 
        resourceLimitMemory: "2Gi", 
        resourceRequestCpu: "1", 
@@ -41,10 +41,10 @@
        def prodTag = "${version}" 
  
  
-       def devProject  = "${GUID}-tasks-dev" 
+       def devProject  = "c4b1-tasks-dev" 
  
  
-       def prodProject = "${GUID}-tasks-prod" 
+       def prodProject = "c4b1-tasks-prod" 
  
  
        // Using Maven build the war file 
@@ -110,8 +110,8 @@
          //update configmap 
  
  
-         sh("oc delete configmap tasks-config --ignore-not-found=true -n ${GUID}-tasks-dev") 
-         sh("oc create configmap tasks-config --from-file=./configuration/application-users.properties --from-file=./configuration/application-roles.properties -n ${GUID}-tasks-dev") 
+         sh("oc delete configmap tasks-config --ignore-not-found=true -n c4b1-tasks-dev") 
+         sh("oc create configmap tasks-config --from-file=./configuration/application-users.properties --from-file=./configuration/application-roles.properties -n c4b1-tasks-dev") 
          // TBD: Deploy to development Project 
          //      Set Image, Set VERSION 
          //      Make sure the application is running and ready before proceeding 
@@ -178,8 +178,8 @@
  
  
          //update configmap 
-         sh("oc delete configmap ${destApp}-config --ignore-not-found=true -n ${GUID}-tasks-prod") 
-         sh("oc create configmap ${destApp}-config --from-file=./configuration/application-users.properties --from-file=./configuration/application-roles.properties -n ${GUID}-tasks-prod") 
+         sh("oc delete configmap ${destApp}-config --ignore-not-found=true -n c4b1-tasks-prod") 
+         sh("oc create configmap ${destApp}-config --from-file=./configuration/application-users.properties --from-file=./configuration/application-roles.properties -n c4b1-tasks-prod") 
  
  
          script { 
